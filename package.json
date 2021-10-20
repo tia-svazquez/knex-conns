@@ -1,0 +1,33 @@
+{
+  "name": "knex-conns",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "db:setup": "npm run db:start || (npm run db:build-img && npm run db:run-img)",
+    "db:teardown": "npm run db:stop",
+    "db:cleanup": "npm run db:down && docker image rm knex-test-img",
+    "prestart": "npm run db:setup",
+    "start": "NODE_ENV=production node index.js",
+    "poststart": "npm run test:teardown",
+    "db:build-img": "docker build -t knex-test-img .",
+    "db:run-img": "docker run -p 5999:5432 -itd --name knex-test-db-cont knex-test-img",
+    "db:start": "docker container start knex-test-db-cont",
+    "db:stop": "docker container stop knex-test-db-cont",
+    "db:down": "docker container rm -f knex-test-db-cont"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tia-svazquez/knex-conns.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tia-svazquez/knex-conns/issues"
+  },
+  "homepage": "https://github.com/tia-svazquez/knex-conns#readme",
+  "dependencies": {
+    "knex": "^0.95.11",
+    "pg": "^8.7.1"
+  }
+}
